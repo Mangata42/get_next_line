@@ -22,42 +22,31 @@ int			ft_strclen(char *str, char c)
 	return (i);
 }
 
-char		*ext_mem_n_copy(char **dst, char *src, int size)
+void		*ft_realloc(void **dst, int size)
 {
 	char	*ret;
-	int		i;
-	int		y;
+	char	*c_dst;
 
-	y = -1;
-	ret = (char *)malloc(sizeof(char) * ft_strlen(*dst) + size + 1);
-	ret = ft_memset(ret, '\0', ft_strlen(*dst) + size + 1);
-	ret = ft_strcpy(ret, *dst);
-	i = ft_strlen(ret);
-	while (src[++y] != '\0')
-		ret[i + y] = src[y];
-	free(*dst);
-	return (ret);
+	c_dst = *dst;
+	if (!(ret = (char *)malloc(sizeof(char) * ft_strlen(c_dst) + size)))
+		return (NULL);
+	ret = ft_memset(ret, '\0', ft_strlen(c_dst) + size);
+	ret = ft_strcpy(ret, c_dst);
+	// free(c_dst);
+	return ((void *)ret);
 }
 
 char	*clean_buffer(char **line, char *buffer)
 {
-	char	*ext;
-	int		i;
-	int		y;
+	char	*tmp;
+	int		n;
 
-	ext = (char *)malloc(sizeof(char) * ft_strlen(buffer) + 1);
-	ext = ft_memset(ext, '\0', ft_strlen(buffer) + 1);
-	i = -1;
-	y = -1;
-	while (buffer[++i] != '\n')
-		ext[++y] = buffer[i];
-	*line = ext_mem_n_copy(line,  ext, ft_strlen(ext));
-	y = -1;
-	ext = ft_memset(ext, '\0', ft_strlen(buffer) + 1);
-	while (buffer[++i] != '\0')
-		ext[++y] = buffer[i];
-	ft_bzero(buffer, ft_strlen(buffer));
-	buffer = ft_strcpy(buffer, ext);
-	free(ext);
-	return (buffer);
+	n = ft_strclen(buffer, '\n');
+	tmp = (char *)malloc(sizeof(char) * ft_strlen(buffer + n + 1));
+	tmp = ft_strcpy(tmp, buffer  + (n + 1));
+	*line = ft_realloc((void **)line, n + 1);
+	*line = ft_strncat(*line, buffer, n);
+	ft_bzero(buffer, BUFF_SIZE);
+	buffer = ft_strcpy(buffer, tmp);
+	free(tmp);
 }

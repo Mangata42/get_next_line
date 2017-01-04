@@ -15,11 +15,15 @@ SRCS = get_next_line.c \
 		ext_fct.c
 
 $(NAME):
+	@make -C ./libft
 	@gcc $(SRCS) -L ./libft -l ft -o $(NAME)
 
 clean:
 	@rm $(NAME)
 
-re: clean all
+fclean: clean
+	@make fclean -C ./libft
+
+re: fclean all
 
 all: $(NAME)

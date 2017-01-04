@@ -143,15 +143,15 @@ OBJ = ft_memset.o \
 		ft_strnbjoin.o
 
 $(NAME):
-	gcc $(FLAGS) -c $(SRC)
-	ar -rc $(NAME) $(OBJ)
+	@gcc $(FLAGS) -c $(SRC)
+	@ar -rc $(NAME) $(OBJ)
 	@echo "Libft - Compilation Done"
 clean:
-	rm -rf $(OBJ)
+	@rm -rf $(OBJ)
 	@echo "Libft - Clean Done"
 
 fclean: clean
-	rm -rf $(NAME)
+	@rm -rf $(NAME)
 	@echo "Libft - Fclean Done"
 
 re: fclean all
