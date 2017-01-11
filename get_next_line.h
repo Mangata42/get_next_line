@@ -6,7 +6,7 @@
 /*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/15 19:52:43 by nghaddar          #+#    #+#             */
-/*   Updated: 2016/12/16 18:59:55 by nghaddar         ###   ########.fr       */
+/*   Updated: 2017/01/11 14:05:32 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,6 @@
 # define BUFF_SIZE 64
 
 int						get_next_line(const int fd, char **line);
-int						ft_strclen(char *str, char c);
-void					*ft_realloc(void **dst, int size);
 char					*clean_buffer(char **line, char *buffer);
-int						check_buffer(int fd, char **line, char *buffer,
-							int *ret);
-
+int						check_buffer(int fd, char **line, char *buffer);
 #endif

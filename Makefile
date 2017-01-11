@@ -6,13 +6,13 @@
 #    By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/12/14 21:27:33 by nghaddar          #+#    #+#              #
-#    Updated: 2016/12/14 21:30:37 by nghaddar         ###   ########.fr        #
+#    Updated: 2017/01/11 14:36:28 by nghaddar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = get_next_line
-SRCS = get_next_line.c \
-		ext_fct.c
+SRCS = get_next_line.c
+FLAGS = -Wall -Wextra -Werror
 
 $(NAME):
 	@make -C ./libft

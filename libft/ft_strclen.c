@@ -1,28 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_sqrt.c                                          :+:      :+:    :+:   */
+/*   ft_strclen.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/04 12:07:03 by nghaddar          #+#    #+#             */
-/*   Updated: 2016/11/05 00:01:27 by nghaddar         ###   ########.fr       */
+/*   Created: 2017/01/07 15:53:43 by Mangata           #+#    #+#             */
+/*   Updated: 2017/01/11 14:53:29 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int		ft_sqrt(int nb)
-{
-	int i;
-	int sq;
+#include "libft.h"
 
-	i = 1;
-	sq = 1;
-	if (nb == 0)
-		return (0);
-	while (i * i < nb)
+int			ft_strclen(char *str, char c)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] != '\0' && str[i] != c)
 		i++;
-	if ((nb % i) == 0)
-		return (i);
-	else
-		return (0);
+	return (i);
 }

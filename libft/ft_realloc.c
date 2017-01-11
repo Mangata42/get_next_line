@@ -1,28 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_sqrt.c                                          :+:      :+:    :+:   */
+/*   ft_realloc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/04 12:07:03 by nghaddar          #+#    #+#             */
-/*   Updated: 2016/11/05 00:01:27 by nghaddar         ###   ########.fr       */
+/*   Created: 2017/01/07 15:47:43 by nghaddar          #+#    #+#             */
+/*   Updated: 2017/01/07 15:52:46 by Mangata          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int		ft_sqrt(int nb)
-{
-	int i;
-	int sq;
+#include "libft.h"
 
-	i = 1;
-	sq = 1;
-	if (nb == 0)
-		return (0);
-	while (i * i < nb)
-		i++;
-	if ((nb % i) == 0)
-		return (i);
-	else
-		return (0);
+void		*ft_realloc(void **dst, int size)
+{
+	char	*ret;
+	char	*c_dst;
+
+	c_dst = *dst;
+	if (!(ret = (char *)malloc(sizeof(char) * ft_strlen(c_dst) + size)))
+		return (NULL);
+	ret = ft_memset(ret, '\0', ft_strlen(c_dst) + size);
+	ret = ft_strcpy(ret, c_dst);
+	free(c_dst);
+	return ((void *)ret);
 }

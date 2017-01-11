@@ -6,7 +6,7 @@
 #    By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/07 11:05:43 by nghaddar          #+#    #+#              #
-#    Updated: 2016/11/14 20:42:44 by nghaddar         ###   ########.fr        #
+#    Updated: 2017/01/07 15:58:14 by Mangata          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -75,7 +75,8 @@ SRC = ft_memset.c \
 		ft_lstiter.c \
 		ft_lstmap.c \
 		ft_sqrt.c \
-		ft_strnbjoin.c
+		ft_realloc.c \
+		ft_strclen.c
 
 OBJ = ft_memset.o \
  		ft_bzero.o \
@@ -140,7 +141,8 @@ OBJ = ft_memset.o \
 		ft_lstiter.o \
 		ft_lstmap.o \
 		ft_sqrt.o \
-		ft_strnbjoin.o
+		ft_realloc.o \
+		ft_strclen.o
 
 $(NAME):
 	@gcc $(FLAGS) -c $(SRC)
