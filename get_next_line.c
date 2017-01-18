@@ -6,80 +6,69 @@
 /*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/12 14:21:22 by nghaddar          #+#    #+#             */
-/*   Updated: 2017/01/11 18:23:29 by nghaddar         ###   ########.fr       */
+/*   Updated: 2017/01/18 10:29:36 by Mangata          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/* 
-
-	Les leaks viennent probablement du fait que *line est malloc à chaque fois que l'on fait appel à GNL. 
-	Il faudrait peut-être créer un tmp qui récupérerait la ligne à copier ensuite dans line, puis qui
-	serait free(), évitant éventuellement les différentes leaks et le malloc(1) de *line, qui sert à ne pas faire
-	segfault le strlen quand *line n'est pas encore malloc().
-
-	À voir ... 
-
-	P.S. 1 : Le fait de vérifier l'existence de *line et de le malloc en conséquence semble corriger certaines leaks, 
-	il reste maintenant à le tester en conditions réelles avec un clean_buffer() fonctionnel.
-
-	P.S. 2 : Nope, ça segfault en temps normal.
-
-*/
-
 #include "get_next_line.h"
 
-char	*clean_buffer(char **line, char *buffer)
+int		new_buffer(char **line, char *buffer)
+{
+	*line = (char *)malloc(sizeof(char) * ft_strlen(buffer) + 1);
+	ft_bzero(*line, ft_strlen(buffer) + 1);
+	if (ft_strchr(buffer, '\n') == NULL)
+	{
+		// *line = ft_realloc((void **)line, ft_strlen(buffer) + 1)
+		*line = ft_strcat(*line, buffer);
+		ft_bzero(buffer, BUFF_SIZE + 1);
+	}
+	if (ft_strchr(buffer, '\n') != NULL)
+	{
+		clean_buffer(line, buffer);
+		return (1);
+	}
+	return (0);
+}
+
+void	clean_buffer(char **line, char *buffer)
 {
 	char	*tmp;
-	int		i;
+	int		n;
 
-	tmp = (char *)malloc(sizeof(char) * BUFF_SIZE + 1);
-	i = -1;
-	while (buffer[++i] != '\n')
-		tmp[i] = buffer[i];
-	tmp[i] = '\0';
-	*line = ft_realloc((void **)line, ft_strlen(tmp) + 1);
-	*line = ft_strcat(*line, tmp);
-	ft_bzero(tmp, BUFF_SIZE + 1);
+	n = ft_strclen(buffer, '\n');
+	*line = ft_realloc((void **)line, n + 1);
+	*line = ft_strncat(*line, buffer, n);
+	if (!(tmp = (char *)malloc(sizeof(char) * ft_strlen(ft_strchr(buffer, '\n') + 1))))
+		return ;
 	tmp = ft_strcpy(tmp, ft_strchr(buffer, '\n') + 1);
 	ft_bzero(buffer, BUFF_SIZE + 1);
 	buffer = ft_strcpy(buffer, tmp);
 	free(tmp);
-	return (buffer);
-}
-
-int		check_buffer(int fd, char **line, char *buffer)
-{
-	int	ret;
-
-	if (ft_strlen(buffer) == 0)
-		ret = read(fd, buffer, BUFF_SIZE);
-	while ((ft_strchr(buffer, '\n') == NULL) && ret > 0)
-	{
-		*line = ft_realloc((void **)line, ret + 1);
-		*line = ft_strcat(*line, buffer);
-		ft_bzero(buffer, BUFF_SIZE + 1);
-		ret = read(fd, buffer, BUFF_SIZE);
-	}
-	if (ret < 0)
-		return (-1);
-	if (ft_strlen(buffer) == 0 && ret == 0)
-		return (0);
-	buffer = clean_buffer(line, buffer);
-	return (1);
 }
 
 int		get_next_line(int fd, char **line)
 {
-	static	char	buffer[BUFF_SIZE + 1];
+	static char		buffer[BUFF_SIZE + 1];
+	int				ret;
 
-	*line = malloc(1);
+	 *line = malloc(1);
+	if (ft_strlen(buffer) != 0)
+		if (new_buffer(line, buffer) == 1)
+			return (1);
 	while (fd > 0 && fd < 256)
 	{
-		if (check_buffer(fd, line, buffer) == 1)
+		ret = read(fd, buffer, BUFF_SIZE);
+		if (ret == 0 || ret == -1)
+			return ((ret == 0) ? 0 : -1);
+		buffer[ret + 1] = '\0';
+		if (ft_strchr(buffer, '\n') != NULL)
+		{
+			clean_buffer(line, buffer);
 			return (1);
-		else
-			return (0);
+		}
+		*line = ft_realloc((void **)line, ft_strlen(buffer) + 1);
+		*line = ft_strcat(*line, buffer);
+		ft_bzero(buffer, BUFF_SIZE + 1);
 	}
 	return (-1);
 }
@@ -105,4 +94,3 @@ int		main(int argc, char **argv)
 	free(line);
 	return (0);
 }
-
