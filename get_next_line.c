@@ -6,7 +6,7 @@
 /*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/12 14:21:22 by nghaddar          #+#    #+#             */
-/*   Updated: 2017/01/18 19:23:05 by nghaddar         ###   ########.fr       */
+/*   Updated: 2017/01/19 20:10:27 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int		get_next_line(int fd, char **line)
 	static	char	buffer[BUFF_SIZE + 1];
 	int				ret;
 
-	if (fd < 0 || fd > 256)
+	if ((fd < 0 || fd > 256) || BUFF_SIZE == 0) 
 		return (-1);
 	if (*line)
 		ft_bzero(*line, ft_strlen(*line));
@@ -44,30 +44,37 @@ int		get_next_line(int fd, char **line)
 		ft_bzero(buffer, BUFF_SIZE + 1);
 		ret = read(fd, buffer, BUFF_SIZE);
 		if (ret <= 0)
-			return (ret == 0 ? 0 : 1);
+			return (ret == 0 ? 0 : -1);
+		if ((ret < BUFF_SIZE) && ft_strchr(buffer, '\n') == NULL)
+		{
+			ft_bzero(buffer, BUFF_SIZE + 1);
+			return (1);
+		}
 		buffer[ret + 1] = '\0';
 	}
 	clean_buffer(line, buffer);
 	return (1);
 }
 
-// int		main(int argc, char **argv)
-// {
-// 	char	*line;
-// 	int		fd;
-// 	int		ret;
+int		main(int argc, char **argv)
+{
+	char	*line;
+	int		fd;
+	int		ret;
 
-// 	if (argc != 2)
-// 	{
-// 		ft_putstr("file you stoopid");
-// 		return (-1);
-// 	}
-// 	fd = open(argv[1], O_RDONLY);
-// 	ret = 42;
-// 	while (ret > 0)
-// 	{
-// 		ret = get_next_line(fd, &line);
-// 		ft_putstr(line);
-// 	}
-// 	return (0);
-// }
+	if (argc != 2)
+	{
+		ft_putstr("file you stoopid");
+		return (-1);
+	}
+	fd = open(argv[1], O_RDONLY);
+	ret = 42;
+	while (ret > 0)
+	{
+		ret = get_next_line(fd, &line);
+		ft_putendl(line);
+		ft_putchar('\n');
+		ft_putnbr(ret);
+	}
+	return (0);
+}
