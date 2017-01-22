@@ -6,7 +6,7 @@
 /*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/15 19:52:43 by nghaddar          #+#    #+#             */
-/*   Updated: 2017/01/19 15:05:20 by nghaddar         ###   ########.fr       */
+/*   Updated: 2017/01/22 17:57:46 by Mangata          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,9 @@
 # include <stdio.h>
 # include <fcntl.h>
 
-# define BUFF_SIZE 128
+# define BUFF_SIZE 64
 
 int		get_next_line(const int fd, char **line);
+void	clean_buffer(char **line, char *buffer);
 
 #endif
