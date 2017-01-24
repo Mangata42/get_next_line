@@ -6,7 +6,7 @@
 /*   By: nghaddar <nghaddar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/12 14:21:22 by nghaddar          #+#    #+#             */
-/*   Updated: 2017/01/24 12:00:16 by nghaddar         ###   ########.fr       */
+/*   Updated: 2017/01/24 18:29:23 by nghaddar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int		get_next_line(int fd, char **line)
 	static	char	buffer[BUFF_SIZE + 1];
 	int				ret;
 
-	if ((fd < 0 || fd > 256) || BUFF_SIZE == 0)
+	if (fd < 0 || BUFF_SIZE == 0)
 		return (-1);
 	if (*line)
 		ft_bzero(*line, ft_strlen(*line));
