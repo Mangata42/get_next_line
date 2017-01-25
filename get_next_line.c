@@ -33,10 +33,10 @@ int		get_next_line(int fd, char **line)
 	static	char	buffer[BUFF_SIZE + 1];
 	int				ret;
 
-	if (fd < 0 || BUFF_SIZE == 0)
+	if (fd < 0 || BUFF_SIZE == 0 || !line)
 		return (-1);
 	if (*line)
-		ft_bzero(*line, ft_strlen(*line));
+		*line = NULL;
 	while (ft_strchr(buffer, '\n') == NULL)
 	{
 		*line = ft_realloc((void **)line, ft_strlen(buffer) + 1);
